@@ -1,0 +1,414 @@
+---
+title: "Chapter 1 Real Numbers"
+
+format: pdf
+latex-packages:
+  - name: amsmath
+  - name: amssymb
+  - name: amsfonts
+  - name: ctex
+header-includes:
+  - "\\newcommand{\\qed}{\\hfill $\\blacksquare$}"
+  - "\\newcommand{\\exercise}[1]{\\begin{center}\\Large\\textbf{#1}\\end{center}}"
+  - "\\usepackage{ctex}"
+editor: visual
+---
+
+**Part I: Theory.**
+
+The first topic of Chapter One is on Supremum, Infimum, Minimum, Maximum, and Axiom of Completeness.
+
+Let $A$ be a non-empty subset of $\mathbb{R}$.
+
+$M \in A$ is called a maximum element of $A$ if $\forall a \in A, a\le M$, and we denoted $M=\max(A)$.
+
+$m \in A$ is called a minimum element of $A$ if $\forall a \in A, a\ge m$, and we denoted $M=\min(A)$.
+
+$s \in \mathbb{R}$ is called supremum of $A$ if s is an upper bound of $A$, i.e., $\forall a \in A, a \le s$, and s is the least upper bound, i.e. $\forall \epsilon >0$, $\exists a\in A$ such that $a>s-\epsilon$. This is exactly Lemma 1.3.7. We denote $s=\sup A$.
+
+$l \in \mathbb{R}$ is called infimum of $A$ if l is a lower bound of $A$, i.e., $\forall a \in A, a \ge l$, and l is the greatest lower bound i.e. $\forall \epsilon >0$, $\exists a\in A$ such that $a<l+\epsilon$. This is exactly Lemma 1.3.7's another part and it is in the following Exercise 1.3.2. We denote $l=\inf A$.
+
+**Axiom of Completeness**: Any non-empty subset bounded above has a supremum $\sup A$.
+
+There is a dual Theorem of this axiom: Any non-empty subset bounded below has an infimum $\inf A$.
+
+以上是核心的性质和概念，贯穿整个Real Analysis.
+
+**Part II: Practice.**
+
+\exercise{Exercise One}
+
+\section*{Question 1. Operations on Sets}
+
+Let $\mathbb{R}$ be the universal set and $A_n=[1, n)$ for $n=2, 3, 4, \dots$ be subsets of $\mathbb{R}$. Define the function $f:\mathbb{R} \to \mathbb{R}$ by $f(x)=x^2-1$.
+
+**1.1** Find $\bigcap_{n=2}^{n=\infty} (A_n)^{c}$.
+
+**Solution**: By De Morgan's Laws (笛摩根律, see Exercise 1.2.3), we have the following equality $$\bigcap_{n=2}^{n=\infty} (A_n)^{c}=\left(\bigcup_{n=2}^{n=\infty}A_n\right)^c.$$ Notice $\bigcup_{n=2}^{n=\infty}A_n=\bigcup_{n=2}^{n=\infty}[1, n)=[1,2)\cup[1,3)\cup\dots\cup[1, n)\cup\dots=[1, \infty)$ and $\left([1, \infty)\right)^c=(-\infty, 1).$
+
+So $\bigcap_{n=2}^{n=\infty} (A_n)^{c}=(-\infty, 1).$
+
+\hfill $\blacksquare$
+
+**1.2** Find $\bigcup_{n=2}^{\infty} (A_{n+1} \setminus A_n)$
+
+**Solution**: Since $A_{n+1}=[1, n+1)$ and $A_n=[1, n)$, we have $A_{n+1} \setminus A_n=[n, n+1).$ Hence, $\bigcup_{n=2}^{\infty} (A_{n+1} \setminus A_n)=\bigcup_{n=2}^{\infty}[n, n+1)=[2, 3)\cup [3, 4)\cup\dots\cup[n, n+1)\dots=[2, \infty).$
+
+\hfill $\blacksquare$
+
+**1.3** Find $f\left(\bigcup_{n=2}^{\infty}A_n\right)$
+
+**Solution**: $\bigcup_{n=2}^{n=\infty}A_n=\bigcup_{n=2}^{n=\infty}[1, n)=[1,2)\cup[1,3)\cup\dots\cup[1, n)\cup\dots=[1, \infty)$
+
+Hence, $f\left(\bigcup_{n=2}^{\infty}A_n\right)=f([1, \infty))=[0, \infty).$ Note $f(x)$ is monotone increasing in $[0, \infty]$ as the following graph shows (we can also prove that $f$ is monotone increasing by definition: $\forall x_1, x_2: 0\le x_1<x_2<\infty$, $f(x_1)-f(x_2)=(x_1^2-1)-(x_2^2-1)=x_1^2-x_2^2=(x_1-x_2)(x_1+x_2)<0$. notice $x_1-x_2<0$ and $x_1+x_2>0$).
+
+\hfill $\blacksquare$
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+def f(x):
+  return x**2 - 1
+x = np.linspace(-20, 20, 400)
+y = f(x)
+plt.figure(figsize=(5, 3))
+plt.plot(x, y, label=r'$f(x) = x^2 - 1$')  
+plt.title(r'Plot of $f(x) = x^2 - 1$ and $x \in [1, \infty)$')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.ylim(bottom=-5)
+plt.legend()
+plt.show()
+```
+
+**1.4** Find $f^{-1}\left(A_8\setminus A_3\right)$
+
+**Solution**: $A_8=[1, 8)$ and $A_3=[1,3)$. So $A_8 \setminus A_3=[3, 8)$. $f^{-1}\left(A_8\setminus A_3\right)=f^{-1}([3,8))=\{x: f(x) \in [3,8)\}$ is the set of those numbers $x$ whose image under $f$ is in $[3,8)$. Since $f$ is monotone in $(-\infty 0)$ and $(0, \infty)$ as above graph shows (the proof is in above answer). Notice $f(\substack{+ \\ -} 2)=2^2-1=3$, and $f(\substack{+\\-}3)=3^2-1=8$, so we have $f^{-1}\left(A_8\setminus A_3\right)=\{x: f(x) \in [3,8)\}=[2, 3)\cup (-3, -2].$
+
+\hfill $\blacksquare$
+
+**1.5** Find $\bigcap_{n=2}^{\infty}f^{-1}(A_n)$ 
+
+**Solution**: Given the function $f(x) = x^2 - 1$, the set $A_n = [1, n]$ for $n \geq 2$, the preimage of $A_n$ under the function $f$ is given by:
+$f^{-1}(A_n) = \{ x : f(x) \in [1, n] \} = \{ x: x^{2} \in [2, n+1] \} = \{ x : \sqrt{2} \leq |x| \leq \sqrt{n+1} \}$
+
+This results in two intervals for each $n$:
+$f^{-1}(A_n) =(-\sqrt{n+1}, -\sqrt{2}] \cup [\sqrt{2}, \sqrt{n+1})$
+
+To find the infinite intersection $\bigcap_{n=2}^{\infty} f^{-1}(A_n)$, we consider the intersection of all such intervals for $n$ going from 2 to infinity. The intersection over the negative intervals $(-\sqrt{n+1}, -\sqrt{2}]$ as $n$ approaches infinity becomes $(-\infty, -\sqrt{2}]$, and the intersection over the positive intervals $[\sqrt{2}, \sqrt{n+1})$ becomes $[\sqrt{2}, \infty)$.
+
+Therefore, the infinite intersection is:
+$\bigcap_{n=2}^{\infty} f^{-1}(A_n) = (-\infty, -\sqrt{2}] \cup [\sqrt{2}, \infty)$
+
+However, considering that each $A_n$ is nested within $A_{n+1}$ since the intervals expand as $n$ increases, the infinite intersection is precisely $A_2$, the smallest set, because it is contained within all subsequent  $A_n$ sets. 
+
+Hence, the infinite intersection is:
+$\bigcap_{n=2}^{\infty} f^{-1}(A_n) = f^{-1}(A_2) = (-\sqrt{3}, -\sqrt{2}] \cup [\sqrt{2}, \sqrt{3})$
+
+
+\hfill $\blacksquare$
+
+\section*{Exercise 1.2.4}
+
+Produce an infinite collection of sets$A_1, A_2, A_3, \ldots$ with the property that every $A_i$ has an infinite number of elements,$A_i \cap A_j = \varnothing$ for all $i \neq j$, and $\bigcup_{i=1}^{\infty} A_i = \mathbb{N}$.
+
+\textbf{Solution:} There are many examples for the partition of $\mathbb{N}$. Notice the Fundamental Theorem of Arithmetic says every non-unit natural number can be uniquely written as the product of different primes' power, there are infinitely many prime numbers, and primes are countable (since it is a subset of natural numbers). We use this theorem to create a collection of sets.
+
+First, we list all prime numbers in order as $\mathbb{P} = \{p_2 = 2, p_3 = 3, p_4 = 5, p_5 = 7, \dots\}$. Second, we define $A_i = \{p_i^n : n \in \mathbb{N}\}$ for $p_i \in \mathbb{P}$ and $i \in \mathbb{I} = \{2, 3, \dots\}$. Note $A_i \cap A_j = \emptyset$ for $i \neq j$ and $i, j \in \mathbb{I}$. Third, we define $A_1 = \mathbb{N} \setminus \left(\bigcup_{i=2}^{\infty} A_i\right)$. Notice $1\in A_1$ and $A_1$ is infinite because there are infinite composite numbers which are not the power of a unique prime.
+
+Now we have a collection of sets $\left( A_i \right)_{i=1}^{\infty}$, $A_i \cap A_j = \emptyset$ for $i \neq j$ and $i, j \in \mathbb{N}$, and $\bigcup_{i=1}^{\infty} A_i = \mathbb{N}$.
+
+\hfill $\blacksquare$
+\section*{Exercise 1.2.9}
+
+Given a function $f: D \rightarrow \mathbb{R}$ and a subset $B\subseteq \mathbb{R}$, let $f^{-1}(B)$ be the set of all points from the domain $D$ that get mapped into $B$; that is, $f^{-1}(B) = \{ x \in D : f(x) \in B \}$. This set is called the preimage of $B$.
+
+```{=tex}
+\begin{enumerate}
+    \item[(a)] Let $ f(x) = x^2 $. If $ A $ is the closed interval $[0,4]$ and $ B $ is the closed interval $[-1,1]$, find $ f^{-1}(A) $ and $ f^{-1}(B) $. Does $ f^{-1}(A \cap B) = f^{-1}(A) \cap f^{-1}(B) $ in this case? Does $ f^{-1}(A \cup B) = f^{-1}(A) \cup f^{-1}(B) $?
+    \item[(b)] The good behavior of preimages demonstrated in (a) is completely general. Show that for an arbitrary function $ g : \mathbb{R} \rightarrow \mathbb{R} $, it is always true that $ g^{-1}(A \cap B) = g^{-1}(A) \cap g^{-1}(B) $ and $ g^{-1}(A \cup B) = g^{-1}(A) \cup g^{-1}(B) $ for all sets $ A, B \subseteq \mathbb{R} $.
+\end{enumerate}
+```
+**Solution of (a)**: $f(x)=x^2$ is a quadratic function which is monotone increasing in $[0, \infty]$ and monotone decreasing in $(-\infty, 0].$ $A\cap B=[0,1]$ and $A\cup B=[-1,4]$.
+
+$f^{-1}\left(A\right)=\left\{x: x\in D \text{ and } f(x) \in A=[0,4]\right\}.$ Since $f(0)=0, f(\substack{+ \\ -}2)=4$, $f^{-1}\left(A\right)=[-2,2].$
+
+$f^{-1}\left(B\right)=\left\{x: x\in D \text{ and } f(x) \in B=[-1,1]\right\}.$ Note $f\ge 0$. So, $f^{-1}\left(B\right)=\left\{x: x\in D \text{ and } f(x) \in B=[0,1]\right\}.$ Since $f(0)=0, f(\substack{+ \\ -}1)=1,$ $f^{-1}\left(B\right)=[-1,1].$
+
+Hence, $f^{-1}(A)\cap f^{-1}(B)=[-2,2]\cap[-1,1]=[-1,1]$. $f^{-1}(A\cap B)=f^{-1}([0,1])=[-1,1]$.So $f^{-1}(A \cap B) = f^{-1}(A) \cap f^{-1}(B)$.
+
+Hence, $f^{-1}(A)\cup f^{-1}(B)=[-2,2]\cup[-1,1]=[-2,2]$. $f^{-1}(A\cup B)=f^{-1}([-1,4])=f^{-1}[0,4]=[-2,2]$. Note $f^{-1}([-1,4])=f^{-1}[0,4]$ because $f \ge 0$. So $f^{-1}(A \cup B) = f^{-1}(A) \cup f^{-1}(B)$. \hfill $\blacksquare$
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+def f(x):
+  return x**2
+x = np.linspace(-20, 20, 400)
+y = f(x)
+plt.figure(figsize=(5, 3))
+plt.plot(x, y, label=r'$f(x) = x^2 - 1$')  
+plt.title(r'Plot of $f(x) = x^2 - 1$ and $x \in [0, \infty)$')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.ylim(bottom=-5)
+plt.legend()
+plt.show()
+```
+
+**Solution of (b)**: Note that $A \subseteq A\cup B$, any $x\in \mathbb{R}$ such that $g(x) \in A$ implies $g(x) \in A\cup B$, i.e. $x \in g^{-1}(A)$ implies $x\in g^{-1}(A\cup B)$. So $g^{-1}(A)\subseteq g^{-1}(A\cup B).$
+
+Similarly, $B \subseteq A\cup B$ implies $g^{-1}(B)\subseteq g^{-1}(A\cup B)$.
+
+Hence $g^{-1}(A)\cup g^{-1}(B) \subseteq g^{-1}(A\cup B)$
+
+Conversely, if $x\in g^{-1}(A\cup B)$, i.e., $g(x)\in A\cup B$. Then, $g(x) \in A$ or $g(x) \in B$. This implies $x \in g^{-1}(A)$ or $x \in g^{-1}(B)$. Hence, $x \in g^{-1}(A)\cup g^{-1}(B)$. So, $g^{-1}(A\cup B)\subseteq g^{-1}(A)\cup g^{-1}(B)$.
+
+Hence, $g^{-1}(A\cup B)= g^{-1}(A)\cup g^{-1}(B)$
+
+Now we prove another equality.
+
+$A\cap B\subseteq A$ implies $g^{-1}(A\cap B) \subseteq g^{-1}(A)$. Similarly, $A\cap B\subseteq B$ implies $g^{-1}(A\cap B) \subseteq g^{-1}(B)$. Hence, $g^{-1}(A\cap B) \subseteq g^{-1}(A) \cap g^{-1}(B).$
+
+Conversely, for $\forall x \in g^{-1}(A) \cap g^{-1}(B)$, $x \in g^{-1}(A)$ and \$ x \in g^{-1}(B)\$. That is, $g(x) \in A$ and $g(x)\in B$. Hence, $g(x) \in A\cap B$, i.e., $x \in g^{-1}(A\cap B)$. So, $g^{-1}(A) \cap g^{-1}(B)\subseteq g^{-1}(A\cap B)$.
+
+So, $g^{-1}(A) \cap g^{-1}(B) = g^{-1}(A\cap B)$. \hfil $\blacksquare$
+
+\section\*{Exercise 1.3.1 (Old Exercise 1.3.2)}
+
+```{=tex}
+\begin{itemize}
+    \item[(a)] Write a formal definition in the style of Definition 1.3.2 for the \textit{infimum} or \textit{greatest lower bound} of a set.
+    \item[(b)] Now, state and prove a version of Lemma 1.3.7 for greatest lower bounds.
+\end{itemize}
+```
+**Solution of (a)**: A real number $l$ is the greatest lower bound for a set $A \in \mathbb{R}$ if $l$ meets the following two conditions:
+
+$(i).$ $l$ is a lower bound for $A$;
+
+$(ii).$ if $b$ is any lower bound for $A$, then $b\le l$.
+
+Note $(i)$ says $l$ is a lower bound and $(ii)$ says $l$ is the largest among all lower bounds. We call $l$ the infimum of $A$ and denoted it as $\text{inf}A=l.$ \hfil $\blacksquare$
+
+**Proof of (b)**: First, let us state the counter part of Lemma $1.3.7$: Assume that $l\in \mathbb{R}$ is a lower bound for the set $A \subset \mathbb{R}$. Then $l=\text{inf} A$ if and only if, $\forall \epsilon>0,$ $\exists a \in A$ such that $a<l+\epsilon.$
+
+$\implies:$
+
+Assume $l=\text{inf} A.$ Then by $(a)$, $l$ is the greatest lower bound. Hence for $\forall \epsilon >0$, $l+\epsilon>l$, $l+\epsilon$ cannot be a lower bound of $A$. Hence, there is an element \$a in A \$ which is greater than $l+\epsilon$, i.e., $a< l+\epsilon$.
+
+$\impliedby:$
+
+$(i)$. As $(a)$ indicates that $l$ is a lower bound of $A$.
+
+$(ii)$. If $b$ is a lower bound of $A$, we want to prove $b\le l$. We prove by contradiction: Assume that $b>l$. Define $\epsilon=\frac{b-l}{2}>0$. Then $\exists a\in A$ is such that $a<l+\epsilon=l+\frac{b-l}{2}=\frac{2l+b-l}{2}=\frac{b+l}{2}<\frac{b+b}{2}=b$. Hence, $b$ is not a lower bound of $A$ (Notice that all elements of $A$ must be larger than any lower bound. In particular, $a\ge b$). This is a contradiction. Hence the assumption that $b> l$ is wrong. So, any lower bound $b$ of $A$ must have $b\le l$.
+
+Now by the definition in $(a)$, we know $l=\text{inf}A$ is the greatest lower bound of $A$. \hfil $\blacksquare$
+
+\section*{Exercise 1.3.2}
+
+Give an example of each of the following, or state that the request is impossible.
+
+```{=tex}
+\begin{enumerate}
+    \item[(a)] A set $ B $ with $ \inf B \geq \sup B $.
+    \item[(b)] A finite set that contains its infimum but not its supremum.
+    \item[(c)] A bounded subset of $ \mathbb{Q} $ that contains its supremum but not its infimum.
+\end{enumerate}
+```
+**Example of (a):** This is possible. Note any singleton set $A=\{a\}$ has the property that $\inf A=\sup A$, hence,$\inf A \ge \sup A$.
+
+**Proof of (b):** This is impossible.
+
+For any finite set $A$, It always contains its minimum element and maximum element. And we know:
+
+if $\max A$ exists, then $\sup A$ also exists and $\sup A=\max A$.
+
+if $\min A$ exists, then $\inf A$ also exists and $\inf A=\min A$.
+
+**Example of (c):** Let $A=(\sqrt{2}, 2]$ be the bounded set (notice, in fact, we have a lot of this type of bounded sets.我们随便都能举出很多这种一边是无理数一边是有理数的例子). Then $\inf A=\sqrt{2}\notin A$ but $\sup A=2 \in A$ \hfil $\blacksquare$
+
+\section*{Exercise 1.3.6}
+
+Given sets $A$ and $B$, define $A + B = \{a+b : a \in A \text{ and } b \in B\}$. Follow these steps to prove that if $A$ and $B$ are nonempty and bounded above then $\sup(A + B) = \sup A + \sup B$.
+
+```{=tex}
+\begin{enumerate}
+    \item[(a)] Let $ s = \sup A $ and $ t = \sup B $. Show $ s + t $ is an upper bound for $ A + B $.
+    \item[(b)] Now let $ u $ be an arbitrary upper bound for $ A + B $, and temporarily fix $ a \in A $. Show $ t \leq u - a $.
+    \item[(c)] Finally, show $\sup(A + B) = s + t$.
+    \item[(d)] Construct another proof of this same fact using Lemma 1.3.8.
+\end{enumerate}
+```
+**Proof of (a):**
+
+Since $s=\sup A$, we have $\forall a \in A$, $a\le s$. Since $t=\sup B$, we have $\forall b\in B$, $b\le t$. Hence, $\forall a \in A, b \in B$, we have $a+b \le s+t$. So, $s+t$ is an upper bound of $A+B$, i.e., $s+t\ge \sup (A+B)$.
+
+**Proof of (b):**
+
+Fix any $a \in A$. $\forall b \in B$, we have $a+b \le u$ since $u$ is an upper bound of $A+B$. So, $b\le u-a$ for all $b\in B$. That is, $u-a$ is an upper bound of $B$. But $t=\sup B$ is the least upper bound of $B$. So, $t \le u-a$.
+
+**Proof of (c):**
+
+From $(b)$, we know $t \le \sup (A+B)-a$ for all $a\in A$. That is, $a\le \sup (A+B) -t$ for all $a\in A$ So, $\sup (A+B) -t$ is an upper bound of $A$. Hence $s \le \sup (A+B) -t$. That is, $s+t\le \sup (A+B)$.
+
+Now by $(a)$ and above inequality, we get $s+t=\sup (A+B)$. That is, $\sup A+\sup B=\sup (A+B)$.
+
+**Proof of (d):**
+
+$(1):$ $\forall a\in A, b\in B$, we have $a\le s$ and $b\le t$. Hence, $a+b\le s+t$. So, $s+t$ is an upper bound of $A+B$.
+
+$(2)$ $\forall \epsilon >0$:
+
+$s-\frac{\epsilon}{2}$ is not an upper bound of $A$ because $s$ is the least upper bound and $s-\frac{\epsilon}{2}$ is even smaller than $s$. So, $\exists a \in A$ such that $a> s-\frac{\epsilon}{2}$.
+
+Similarly, $t-\frac{\epsilon}{2}$ is not an upper bound of $B$ because $t$ is the least upper bound and $t-\frac{\epsilon}{2}$ is even smaller than $t$. So, $\exists b \in B$ such that $b> t-\frac{\epsilon}{2}$.
+
+Hence, $a+b>(s-\frac{\epsilon}{2})+t-\frac{\epsilon}{2}=s+t-\epsilon$.
+
+Now by Lemma 1.3.8 (or 1.3.7?), we know $s+t$ is the least upper bound. Hence, $s+t=\sup (A+B)$. \hfil $\blacksquare$
+
+\section\*{Exercise 1.3.11 (Old book does not have this question)}
+
+Decide if the following statements about suprema and infima are true or false. Give a short proof for those that are true. For any that are false, supply an example where the claim in question does not appear to hold.
+
+```{=tex}
+\begin{enumerate}
+    \item[(a)] If $ A $ and $ B $ are nonempty, bounded, and satisfy $ A \subseteq B $, then $ \sup A \leq \sup B $.
+    \item[(b)] If $ \sup A < \inf B $ for sets $ A $ and $ B $, then there exists a $ c \in \mathbb{R} $ satisfying $ a < c < b $ for all $ a \in A $ and $ b \in B $.
+    \item[(c)] If there exists a $ c \in \mathbb{R} $ satisfying $ a < c < b $ for all $ a \in A $ and $ b \in B $, then $ \sup A < \inf B $.
+\end{enumerate}
+```
+**Solution:**
+
+$(a):$ It is true.
+
+$\forall b \in B$, $b \le \text{sup}B$. In particular, $\forall a \in A \implies$ $a\in B$. Hence, $a \le \text{sup}B$. So, $\text{sup}B$ is an upper bound of $A$. But $\text{sup}A$ is the least upper bound of $A$. Hence $\text{sup}A\le \text{sup}B.$
+
+$(b):$ It is true.
+
+Define $c=\frac{\text{inf} B+\text{sup} A}{2}$. Notice $\text{sup}A < \text{inf}B$.
+
+$\text{sup}A=\frac{\text{sup}A+\text{sup} A}{2}<c=\frac{\text{inf} B+\text{sup} A}{2}<\frac{\text{inf} B+\text B}{2}=\text{inf} B$. Hence, we have the following:
+
+$\forall b \in B$, $b \ge \text{inf} B>c$.
+
+$\forall a \in A$, $a \le \text{sup} A<c$.
+
+So $\forall a \in A$ and $b \in B$, we have $a<c<b$ where $c=\frac{\text{inf} B+\text{sup} A}{2}$.
+
+$(c):$ It is false.
+
+Example: Let $A=[-1, 0)$ and $B=(0, 1)$. Then $c=$ satisfies the condition that $\forall a \in A$, $a<0=c$ and $\forall b \in B$, $b>0=c$. Hence, $a<c<b$ for $\forall a\in A, b\in B$ and $c=0$. But $\text{sup} A=\text{inf} B$. \hfill $\blacksquare$
+
+Question End下面的是老教材的同题号的题.
+
+\section*{Old Exercise 1.2.4. Verify the triangle inequality in the special cases.}
+
+**(a)** $a$ and $b$ have the same sign.
+
+**Solution**: Recall the triangle inequality: $\forall a, b \in \mathbb{R}, |a+b|\le |a|+|b|$ (ref. page 8 Example 1.2.5 for the definition).
+
+Case 1: $a\ge0$ and $b\ge0$. Then $|a+b|=a+b=|a|+|b|\le |a|+|b|.$
+
+Case 2: $a\le0$ and $b\le0$. Then $-a=|a|$, $-b=|b|$, and $-a-b=|a|+|b|=||a|+|b||=|-a-b|=|a+b|$. Hence, $|a+b|=|a|+|b|\le |a|+|b|.$
+
+By Case 1 and Case 2, we have $|a+b|\le |a|+|b|$ for $\forall a$ and $b \in \mathbb{R}$ having the same sign. \hfill $\blacksquare$
+
+**(b)** $a \ge 0$, $b<0$, and $a+b\ge0$.
+
+**Solution**: Recall the triangle inequality: $\forall a, b \in \mathbb{R}, |a+b|\le |a|+|b|$ (ref. page 8 Example 1.2.5 for the definition).
+
+$a\ge 0, b<0 \implies b<a+b<a.$ This means on the real number line $\mathbb{R}$, $a+b$ is between $a$ and $b$. Hence, from the geometry distance meaning of absolute value we know $|a+b|\le \max \{|a|, |b|\}.$
+
+Case 1: $|a|\le |b|$. Then $|a+b|\le \max \{|a|, |b|\}=|b|.$ Hence, $|a+b\le|b|\le|a|+|b|.$
+
+Case 2: $|a|\ge |b|$. Then $|a+b|\le \max \{|a|, |b|\}=|a|.$ Hence, $|a+b\le|a|\le|a|+|b|.$
+
+By Case 1 and Case 2, we have $|a+b|\le |a|+|b|$ for $\forall a$ and $b \in \mathbb{R}$ having the same sign. **Notice I did not use the condition of** $a+b\ge 0$. \hfill $\blacksquare$
+
+\section*{Old Exercise 1.2.9}
+
+Show that the sequence $(x_1, x_2, x_3, \dots)$ defined in Example 1.2.7 is bounded above by 2; that is, prove that $x_n\le2$ for every $n \in \mathbb{N}.$
+
+**Solution**: Recall $x_1=1$ and $x_{n+1}=\frac{1}{2}x_n+1$ and $(x_n)$ is monotone decreasing. We prove the claim by mathematics induction.
+
+Step 1: Clearly $x_1=1\le 2$.
+
+Step 2: Suppose $x_k\le 2$ for all $k\le n$ with some $n\in \mathbb{N}$. Then $x_{k+1}=\frac{1}{2}x_k+1\le\frac{1}{2}*2+1=2.$
+
+By Step 1, Step 2, and mathematics induction, we conclude $x_n\le 2$ for all $n\in \mathbb{N}.$
+
+\hfill $\blacksquare$
+
+\section*{Old Exercise 1.3.1}
+
+Let $Z_5 = \{0, 1, 2, 3, 4\}$ and define addition and multiplication modulo 5. In other words, compute the integer remainder when $a + b$ and $ab$ are divided by 5, and use this as the value for the sum and product, respectively.
+
+```{=tex}
+\begin{itemize}
+    \item[(a)] Show that, given any element $z \in Z_5$, there exists an element $y$ such that $z + y = 0$. The element $y$ is called the \textit{additive inverse} of $x$.
+    \item[(b)] Show that, given any $z \neq 0$ in $Z_5$, there exists an element $x$ such that $zx = 1$. The element $x$ is called the \textit{multiplicative inverse} of $x$.
+    \item[(c)] The existence of additive and multiplicative inverses is part of the definition of a \textit{field}. Investigate the set $Z_4 = \{0, 1, 2, 3\}$ (where addition and multiplication are defined modulo 4) for the existence of additive and multiplicative inverses. Make a conjecture about the values of $n$ for which additive inverses exist in $Z_n$, and then form another conjecture about the existence of multiplicative inverses.
+\end{itemize}
+```
+**Proof of (a):** Notice the commutative law of addition and multiplication in $\mathbb{Z}$ implies the same commutative laws of addition and multiplication in the set of $Z_n$.
+
+$0+0=0 \implies 0$ is the additive inverse of $0$.
+
+$1+4=4+1=5=0\implies$ the additive inverse of $1$ is $4$ and they are inverses of each other.
+
+$2+3=3+2=5=0 \implies$ the additive inverse of $2$ is $3$ and they are inverses of each other.
+
+\hfill $\blacksquare$
+
+**Proof of (b):** Notice the commutative law of addition and multiplication in $\mathbb{Z}$ implies the same commutative laws of addition and multiplication in the set of $Z_n$.
+
+$1*1=1\implies$ the multiplication inverse of $1$ is $1$.
+
+$2*3=3*2=1 \implies$ the multiplication inverse of $2$ is $3$ and they are inverses of each other.
+
+$4*4=1 \implies$ the multiplication inverse of $4$ is $4$. \hfill $\blacksquare$
+
+**Proof of (c):** Notice the commutative law of addition and multiplication hold in $\mathbb{Z}$ implies the same commutative laws of addition and multiplication in the set of $Z_n$.
+
+For $Z_4$, the additive inverse of $0$ is $0$ because $0+0=0$; additive inverse of $1$ is $3$ because $1+3=0$; and additive inverse of $2$ is 2 because $2+2=0$. However, $2$ does not have multiplicative inverse since $2*x=1$ has no solution in $Z_4$. In fact $2*0=0, 2*1=2, 2*2=0$, and $2*3=2.$ So, none of $0,1,2,3$ is an inverse of 2. Hence, $2$ in not invertible in $Z_4$. For $1 \in Z_4$, it has $1$ as its inverse, and for $3 \in Z_4$, it has $3$ as its inverse since $3*3=1$ in $Z_4$.
+
+Notice that $5$ is a prime number and $4$ is a composite number. Hence, I have the following conjectures:
+
+**Conjecture 1**: $\forall$ composite number $n \in \mathbb{N}$, every element $a \in Z_n$ has an additive inverse $n-a \in Z_n.$
+
+**Conjecture 2**: $\forall$ prime number $p \in \mathbb{N}$, every nonzero element $a \in Z_p$ has a multiplicative
+
+\hfill $\blacksquare$
+
+\section*{Old Exercise 1.3.6}
+
+Compute, without proofs, the suprema and infima of the following sets:
+
+```{=tex}
+\begin{enumerate}
+    \item[(a)] \{$n \in \mathbb{N} : n^2 < 10$\}.
+    \item[(b)] \{$n/(m + n) : m, n \in \mathbb{N}$\}.
+    \item[(c)] \{$n/(2n + 1) : n \in \mathbb{N}$\}.
+    \item[(d)] \{$n/m : m, n \in \mathbb{N}$ with $m + n \leq 10$\}.
+\end{enumerate}
+```
+**Solution:**
+
+$(a):$
+
+The supremum of {$n \in \mathbb{N} : n^2 < 10$} is $\text{sup} \left( \{n \in \mathbb{N} : n^2 < 10 \}\right)=\sqrt{10}.$ Simliarly, the infimum is $-\sqrt{10}$.
+
+$(b):$ Every element in {$n/(m + n) : m, n \in \mathbb{N}$} is $0<\frac{n}{n+m}<1$. So, the infimum is $0$ and supremum is $1$.
+
+$(c):$ $\forall n \in \mathbb{N}$, $\frac{1}{3}\le \frac{n}{2n+1}<\frac{1}{2}$. So, the infimum is $\frac{1}{3}$ and supremum is $\frac{1}{2}$.
+
+$(d):$ $-1<\frac{n}{m}=\frac{n+m-m}{m}=\frac{n+m}{m}-1\le\frac{10}{m}-1\le 9$. So, the infimum is -1 and the supremum is 9.
+
+\hfill $\blacksquare$
